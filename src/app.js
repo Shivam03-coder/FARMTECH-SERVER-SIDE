@@ -5,6 +5,7 @@ import "./config/passportjwtconfig.js";
 import { passport } from "./config/passportjwtconfig.js";
 import { appconfig } from "./config/appconfig.js";
 import { Authroutes } from "./routes/userRoute.js";
+import firstfiveRoutes from "./routes/firstfiveRoutes.js";
 
 export const app = express();
 
@@ -36,3 +37,4 @@ app.use("/api/v1/kissan-mitra/farm", satelliteRoute);
 app.use("/api/v1/kissan-mitra/community", communitymsgRoutes);
 app.use("/api/v1/kissan-mitra/mail", emailRoute);
 app.use("/api/v1/kissan-mitra/crop", cropRoutes);
+app.use('/api/v1/kissan-mitra/user', firstfiveRoutes);
