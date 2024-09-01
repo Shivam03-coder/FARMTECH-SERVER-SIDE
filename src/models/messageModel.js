@@ -15,12 +15,16 @@ const senderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  profilePhoto: {
+    type: String,
+    default: null,
+  },
 });
 
 // Define the message schema
 const messageSchema = new mongoose.Schema({
   sender: {
-    type: senderSchema, 
+    type: senderSchema,
     required: true,
   },
   room: {

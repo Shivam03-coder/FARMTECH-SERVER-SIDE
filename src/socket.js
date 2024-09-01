@@ -47,7 +47,7 @@ const SocketIoServerConnection = (serverInstance) => {
     socket.on("sendMessage", async (message) => {
       try {
         const senderData = await UserModel.findById(message.sender).select(
-          "_id fullname email"
+          "_id fullname email profilePhoto"
         );
 
         if (!senderData) {
@@ -60,6 +60,7 @@ const SocketIoServerConnection = (serverInstance) => {
             _id: senderData._id,
             fullname: senderData.fullname,
             email: senderData.email,
+            profilePhoto: senderData.profilePhoto,
           },
         };
 
@@ -68,7 +69,6 @@ const SocketIoServerConnection = (serverInstance) => {
         );
 
         Io.to(message.room).emit("receiveMessage", MessagesCreated);
-        
       } catch (error) {
         console.error("Error sending message:", error);
       }
