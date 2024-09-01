@@ -27,7 +27,6 @@ Authroutes.route("/user-profile").post(
   passport.authenticate("jwt", { session: false }),
   userprofileController
 );
-
 Authroutes.route("/upload-profile-photo").post(
   getnewToken,
   passport.authenticate("jwt", { session: false }),

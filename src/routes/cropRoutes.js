@@ -2,6 +2,8 @@ import { Router } from "express";
 import passport from "passport";
 import getnewToken from "../middlewares/getnewToken.js";
 import { getCropsByCoordinates } from '../controllers/cropDataController.js';
+import { getAllCrops  } from '../controllers/croplistController.js';
+
 
 const router = Router();
 
@@ -13,7 +15,14 @@ router.get(
   
 );
 
+router.get(
+  "/all-crop",
+  getnewToken,
+  passport.authenticate("jwt", { session: false }),
+  getAllCrops
+  
+);
+
+
 export default router;
-
-
 
