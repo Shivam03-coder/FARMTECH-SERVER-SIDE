@@ -14,7 +14,6 @@ const SocketIoServerConnection = (serverInstance) => {
 
   const SocketUsers = new Map();
 
-  // HANDLE IO CONNECTION
 
   Io.on("connection", (socket) => {
     const UserId = socket.handshake.query.UserId;
