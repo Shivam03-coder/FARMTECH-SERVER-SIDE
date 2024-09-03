@@ -1,79 +1,57 @@
 import express from "express";
-import axios from "axios";
 import multer from "multer";
-import FormData from "form-data";
+import { Client } from "@gradio/client";
+import { Buffer } from "buffer";
 
 const router = express.Router();
 const upload = multer();
 
-const FLASK_API_BASE_URL = "http://127.0.0.1:5000";
+// Initialize Hugging Face Client instances for each model
+const cropPredictClient = await Client.connect("rjAnupam/kissan-mitra");
+const yieldPredictClient = await Client.connect("rjAnupam/kissan-mitra");
+const fertilizerPredictClient = await Client.connect("rjAnupam/kissan-mitra");
+const diseasePredictClient = await Client.connect("rjAnupam/kissan-mitra");
 
+// Crop Prediction Route
 router.post("/crop-predict", async (req, res) => {
   try {
-    const response = await axios.post(
-      `${FLASK_API_BASE_URL}/crop-predict`,
-      req.body,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    res.json(response.data);
+    const result = await cropPredictClient.predict("/predict", req.body);
+    res.json(result.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
+// Yield Prediction Route
 router.post("/yield-predict", async (req, res) => {
   try {
-    const response = await axios.post(
-      `${FLASK_API_BASE_URL}/yield-predict`,
-      req.body,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    res.json(response.data);
+    const result = await yieldPredictClient.predict("/predict_1", req.body);
+    res.json(result.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
+// Fertilizer Recommendation Route
 router.post("/fertilizer-predict", async (req, res) => {
   try {
-    const response = await axios.post(
-      `${FLASK_API_BASE_URL}/fertilizer-predict`,
-      req.body,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    res.json(response.data);
+    const result = await fertilizerPredictClient.predict("/predict_2", req.body);
+    res.json(result.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
+// Disease Prediction Route
 router.post("/disease-predict", upload.single("file"), async (req, res) => {
   try {
-    const form = new FormData();
-    form.append("file", req.file.buffer, req.file.originalname);
+    // Convert Buffer to Blob
+    const fileBlob = new Blob([new Uint8Array(req.file.buffer)], { type: req.file.mimetype });
 
-    const response = await axios.post(
-      `${FLASK_API_BASE_URL}/disease-predict`,
-      form,
-      {
-        headers: {
-          ...form.getHeaders(),
-        },
-      }
-    );
-    res.json(response.data);
+    const result = await diseasePredictClient.predict("/predict_3", {
+      img: fileBlob,
+    });
+    res.json(result.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
