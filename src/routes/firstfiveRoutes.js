@@ -1,9 +1,15 @@
-import express from 'express';
-import { getProfilePhotos } from '../controllers/firstfiveController.js'; // Adjust the path accordingly
+import express from "express";
+import passport from "passport";
+import getnewToken from "../middlewares/getnewToken.js";
+import { getProfilePhotos } from "../controllers/firstfiveController.js"; 
 
 const router = express.Router();
 
-// Route to get profile photos of the first 5 users
-router.get('/five/profile-photos', getProfilePhotos);
+router.get(
+  "/five/profile-photos",
+  getnewToken,
+  passport.authenticate("jwt", { session: false }),
+  getProfilePhotos
+);
 
 export default router;

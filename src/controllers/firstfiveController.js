@@ -6,7 +6,7 @@ export const getProfilePhotos = async (req, res) => {
     // Fetch the first 5 users sorted by creation date
     const users = await UserModel.find({}, 'profilePhoto')
       .sort({ createdAt: 1 })
-      .limit(5);
+      .limit(4);
 
     // Extract the profile photos
     const profilePhotos = users.map(user => user.profilePhoto);
