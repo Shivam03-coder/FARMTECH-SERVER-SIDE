@@ -1,7 +1,6 @@
 import express from "express";
 import multer from "multer";
 import { Client } from "@gradio/client";
-import { Buffer } from "buffer";
 
 const router = express.Router();
 const upload = multer();
@@ -28,6 +27,7 @@ router.post("/yield-predict", async (req, res) => {
     const result = await yieldPredictClient.predict("/predict_1", req.body);
     res.json(result.data);
   } catch (error) {
+    console.log("🚀 ~ router.post ~ error:", error)
     res.status(500).json({ error: error.message });
   }
 });

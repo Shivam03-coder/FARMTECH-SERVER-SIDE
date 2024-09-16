@@ -19,6 +19,7 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
+
 import weatherRoutes from "./routes/weatherRoutes.js";
 import marketRoutes from "./routes/marketRoutes.js";
 import cropAdviceRoutes from "./routes/mistralRoute.js";
