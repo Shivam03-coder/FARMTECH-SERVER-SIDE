@@ -34,8 +34,12 @@ const userloginController = async (req, res) => {
     // Send cookies
     setTokenscookies(res, accessToken, refreshToken);
 
-    // Send isAuthenticated as a cookie
-    res.cookie("isUserAuthenticated", user.isAuthenticated);
+    res.cookie("isUserAuthenticated", user.isAuthenticated, {
+      httpOnly: false,
+      secure: false,
+      domain: ".nxtdev.in",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
     // Response after successful login
     res.status(200).json({
